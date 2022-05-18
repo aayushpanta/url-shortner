@@ -1,0 +1,46 @@
+***Steps to Create a Django Project***
+#password : django-admin admin@gmail.com
+Create virtual environment
+    pip install virtualenv
+    python -m venv env_name
+    env_name\Scripts\activate.bat
+Django-admin
+    pip install django
+    django-admin --version
+    django-admin startproject project_name
+    python project_name\manage.py runserver
+APP
+    python manage.py startapp app_name
+    register new app in settings.py > INSTALLED_APPS
+    now code in app_name\views.py 
+    import views from app_name in app_name\urls.py 
+    add path of app_name to project_name\urls.py
+DEPLOY
+    pip install gunicorn django-heroku
+    Create runtime.txt (python version in this file)
+        python-3.7.1
+    Create Procfile
+        web gunicorn project_name.wsgi:application --log-file -
+    pip freeze > requirements.txt
+    in settings.py
+        import django_heroku
+        import dj_database_url
+        ALLOWED_HOSTS=['*']                                     // allow all hosts
+        DATABASES = {'default' : dj_database_url.config }       // change default database
+        django_heroku.settings(locals())                        // add at end of file
+    in terminal
+        heroku login                                            // gives a git_link_for_project
+        heroku create unique_project_name
+        git init
+        git status
+        git remote -v
+        git remote add git_link_for_project
+        git remote -v
+        heroku addons:create heroku-postgresql:hobby-dev
+        git add .
+        git commit -m "First Commit"
+        git push heroku master                                   // gives link unique_project_name.herokuapp.com
+    migrate database
+        heroku run manage.py makemigrations
+        heroku run manage.py migrate
+    connect unique_project_nameherokuapp.com to custom domain
